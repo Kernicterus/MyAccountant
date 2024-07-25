@@ -23,7 +23,7 @@ install:
 # 	$(TEST_CMD)
 
 run:
-	python3 $(MAIN_SCRIPT)
+	python3 $(MAIN_SCRIPT) example.pdf output.xslx
 
 clean:
 	rm -rf __pycache__

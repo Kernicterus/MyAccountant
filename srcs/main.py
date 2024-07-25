@@ -3,6 +3,7 @@ import pandas as pd
 import re
 from openpyxl import load_workbook
 from datetime import datetime
+import sys
 
 #extracted data from pdf to object
 class XPdf:
@@ -37,8 +38,8 @@ class XPdf:
 #     additional_df = pd.DataFrame(additional_data)
 #     additional_df.to_excel(writer, sheet_name='Additional_Data', index=False)
 
-def pdf_extraction():
-	pdf_path = 'f42kx9wn14032024_LEDE00.pdf'
+def pdf_extraction(inputpdf):
+	pdf_path = inputpdf
 	text = ""
 	with pdfplumber.open(pdf_path) as pdf:
 		for page in pdf.pages:
@@ -50,22 +51,30 @@ def parsing_lines(lines, my_pdf):
 	current_year = datetime.now().year
 	current_year = current_year % 100
 	print (current_year)
-	pattern = re.compile(r"\d{2}/\d{2}/\d{11}", re.IGNORECASE)
+	pattern = re.compile(r"\d{2}/\d{2}/\d{2}\|?\d{9}", re.IGNORECASE)
 	for line in lines:
 		match = re.match(pattern, line)
 		if match:
+			day_str = line[0:2]
+			month_str = line[3:5]
 			year_str = line[6:8]
 			if current_year == int(year_str):
 				print(line)
+				print(day_str+month_str+year_str)
 
-def parsing_to_excel(my_pdf):
-	excel_path = 'output.xlsx'
+def parsing_to_excel(outputxlsx,my_pdf):
+	excel_path = outputxlsx
     
 def MyAccountant():
+	if len(sys.argv) != 3:
+		print("Usage: python MyAccountant.py <input.pdf> <output.xlsx>")
+		sys.exit(1)
+	inputpdf = sys.argv[1]
+	outputxlsx = sys.argv[2]
 	my_pdf = XPdf()
-	lines = pdf_extraction()
+	lines = pdf_extraction(inputpdf)
 	parsing_lines(lines, my_pdf)
-	parsing_to_excel(my_pdf)
+	parsing_to_excel(outputxlsx,my_pdf)
 
 if __name__ == "__main__":
     MyAccountant()		
