@@ -1,17 +1,10 @@
 import pdfplumber
 import pandas as pd
-import re
 from openpyxl import load_workbook
-from datetime import datetime
 import sys
 
-#extracted data from pdf to object
-class XPdf:
-	def __init__(self):
-		self.file_per_month_current_year = [0] * 12
-		self.file_per_month_last_year = [0] * 12
-		self.revenue_per_month_current_year = [0] * 12
-		self.revenue_per_month_last_year = [0] * 12
+from XPdf import XPdf
+from parsing import parsing_lines
 
 # # Écrire les données dans une première feuille Excel
 # with pd.ExcelWriter(excel_path, engine='openpyxl') as writer:
@@ -46,21 +39,6 @@ def pdf_extraction(inputpdf):
 			text += page.extract_text() + "\n"
 		lines = text.split('\n')
 	return lines
-
-def parsing_lines(lines, my_pdf):
-	current_year = datetime.now().year
-	current_year = current_year % 100
-	print (current_year)
-	pattern = re.compile(r"\d{2}/\d{2}/\d{2}\|?\d{9}", re.IGNORECASE)
-	for line in lines:
-		match = re.match(pattern, line)
-		if match:
-			day_str = line[0:2]
-			month_str = line[3:5]
-			year_str = line[6:8]
-			if current_year == int(year_str):
-				print(line)
-				print(day_str+month_str+year_str)
 
 def parsing_to_excel(outputxlsx,my_pdf):
 	excel_path = outputxlsx
