@@ -1,10 +1,10 @@
 import pdfplumber
 import pandas as pd
-from openpyxl import load_workbook
 import sys
 
 from XPdf import XPdf
 from parsing import parsing_lines
+from to_excel import parsing_to_excel
 
 # # Écrire les données dans une première feuille Excel
 # with pd.ExcelWriter(excel_path, engine='openpyxl') as writer:
@@ -40,19 +40,16 @@ def pdf_extraction(inputpdf):
 		lines = text.split('\n')
 	return lines
 
-def parsing_to_excel(outputxlsx,my_pdf):
-	excel_path = outputxlsx
-    
 def MyAccountant():
 	if len(sys.argv) != 3:
 		print("Usage: python MyAccountant.py <input.pdf> <output.xlsx>")
 		sys.exit(1)
 	inputpdf = sys.argv[1]
-	outputxlsx = sys.argv[2]
+	inputxlsx = sys.argv[2]
 	my_pdf = XPdf()
 	lines = pdf_extraction(inputpdf)
 	parsing_lines(lines, my_pdf)
-	parsing_to_excel(outputxlsx,my_pdf)
+	parsing_to_excel(inputxlsx, my_pdf)
 
 if __name__ == "__main__":
     MyAccountant()		
