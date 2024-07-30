@@ -69,18 +69,31 @@ def put_dates_per_year_sheet(workbook, my_pdf):
         row = get_row(ws, key)
         put_date(ws, value, row, column)
 
+def prepare_resume_sheet(ws):
+    ws['B1'] = "total_files"
+    ws['C1'] = "net_revenue"
+
 def is_bill_already_scraped(workbook, date):
     try :
         ws = workbook['pdf_scraped']
     except KeyError :
-        print ("Error : the sheet 'pdf_scraped' doesn't exist")
-        exit        
+        ws = workbook.create_sheet('pdf_scraped')
+        prepare_resume_sheet(ws)
     for cell in ws['A']:
         if cell.value == date:
             return True
-    ws.insert_rows(1)
-    ws['A1'] = date
+    ws.insert_rows(2)
+    ws['A2'] = date
     return False
+
+def put_rest_of_data(workbook,my_pdf):
+    rowx = 0
+    ws = workbook['pdf_scraped']
+    for cell in ws['A']:
+        if cell.value == my_pdf.bill_date:  
+            rowx= cell.row
+    ws.cell(row=rowx, column = 2).value = my_pdf.total_files
+    ws.cell(row=rowx, column = 3).value = my_pdf.net_revenue
     
 def parsing_to_excel(inputxlsx, my_pdf):
     workbook = load_workbook(inputxlsx)
@@ -88,6 +101,7 @@ def parsing_to_excel(inputxlsx, my_pdf):
         print("Error : pdf already scraped")
         exit
     put_dates_per_year_sheet(workbook, my_pdf)
+    put_rest_of_data(workbook, my_pdf)
     workbook.save('output.xlsx')
 
 

@@ -5,6 +5,7 @@ import sys
 from XPdf import XPdf
 from parsing import parsing_lines
 from to_excel import parsing_to_excel
+from window import graphical_window
 
 # # Écrire les données dans une première feuille Excel
 # with pd.ExcelWriter(excel_path, engine='openpyxl') as writer:
@@ -41,6 +42,7 @@ def pdf_extraction(inputpdf):
 	return lines
 
 def MyAccountant():
+	graphical_window()
 	if len(sys.argv) != 3:
 		print("Usage: python MyAccountant.py <input.pdf> <output.xlsx>")
 		sys.exit(1)
