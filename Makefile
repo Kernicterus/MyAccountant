@@ -23,7 +23,7 @@ install:
 # 	$(TEST_CMD)
 
 run:
-	python3 $(MAIN_SCRIPT) f42kx9wn14032024_LEDE00.pdf input.xlsx
+	python3 $(MAIN_SCRIPT)
 # python3 $(MAIN_SCRIPT) example.pdf output.xlsx
 
 clean:

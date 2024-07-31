@@ -1,69 +1,44 @@
-import pdfplumber
-import pandas as pd
-import sys
+from tkinter import *
+from tkinter.filedialog import *
+from myaccountant import MyAccountant
 
-from XPdf import XPdf
-from parsing import parsing_lines
-from to_excel import parsing_to_excel
-from window import graphical_window
+def quit_program():
+    root.quit()
+    root.destroy()
 
-# # Écrire les données dans une première feuille Excel
-# with pd.ExcelWriter(excel_path, engine='openpyxl') as writer:
-#     for i, table_df in enumerate(tables):
-#         table_df.to_excel(writer, sheet_name=f'Tableau_{i+1}', index=False)
+def select_pdf():
+    global filepathpdf
+    filepathpdf = askopenfilename(title="Select a pdf to scrap",filetypes=[('pdf files','.pdf')])
+    if filepathpdf:
+        pdf_label.config(text=filepathpdf)
 
-# # Charger le fichier Excel pour ajouter des formules
-# workbook = load_workbook(excel_path)
-# sheet = workbook['Tableau_1']
+def select_xlsx():
+    global filepathxlsx
+    filepathxlsx = askopenfilename(title="Select a xlsx to store data",filetypes=[('excel files','.xlsx')])
+    if filepathxlsx:
+        xlsx_label.config(text=filepathxlsx)
 
-# # Exemple : écrire une somme de la colonne A dans la cellule B1
-# sheet['B1'] = 'Total'
-# sheet['B2'] = '=SUM(A2:A10)'
+def run_program():
+    MyAccountant(filepathpdf,filepathxlsx)
+    quit_program()
 
-# # Sauvegarder les modifications
-# workbook.save(excel_path)
+def graphical_window():
+    global root, pdf_label, xlsx_label
 
-# # Écrire des données dans une deuxième feuille
-# with pd.ExcelWriter(excel_path, engine='openpyxl', mode='a') as writer:
-#     additional_data = {
-#         'Col1': [1, 2, 3],
-#         'Col2': [4, 5, 6]
-#     }
-#     additional_df = pd.DataFrame(additional_data)
-#     additional_df.to_excel(writer, sheet_name='Additional_Data', index=False)
+    root = Tk()
+    root.title("MyAccountant")
 
-def pdf_extraction(inputpdf):
-	pdf_path = inputpdf
-	text = ""
-	with pdfplumber.open(pdf_path) as pdf:
-		for page in pdf.pages:
-			text += page.extract_text() + "\n"
-		lines = text.split('\n')
-	return lines
+    pdf_label = Label(root, text="No PDF selected")
+    pdf_label.pack(pady=10)
+    xlsx_label = Label(root, text="No XLSX selected")
+    xlsx_label.pack(pady=10)
+    
+    Button(root, text="Select PDF", command=select_pdf).pack(pady=5)
+    Button(root, text="Select XLSX", command=select_xlsx).pack(pady=5)
+    Button(root, text ='Run scraping', command=run_program).pack(side=LEFT, padx=5, pady=5)
+    Button(root, text ='quit', command=quit_program).pack(side=RIGHT, padx=5, pady=5)
 
-def MyAccountant():
-	graphical_window()
-	if len(sys.argv) != 3:
-		print("Usage: python MyAccountant.py <input.pdf> <output.xlsx>")
-		sys.exit(1)
-	inputpdf = sys.argv[1]
-	inputxlsx = sys.argv[2]
-	my_pdf = XPdf()
-	lines = pdf_extraction(inputpdf)
-	parsing_lines(lines, my_pdf)
-	parsing_to_excel(inputxlsx, my_pdf)
+    root.mainloop()
 
 if __name__ == "__main__":
-    MyAccountant()		
-	
-	
-	# im = pdf.pages[0].to_image(resolution=150)
-		# im.show()
-		# for page_num, page in enumerate(pdf.pages):
-		# 	extracted_tables = page.extract_tables()
-		# 	for table in extracted_tables:
-		# 		df = pd.DataFrame(table[1:], columns=table[0])
-		# 		tables.append(df)
-		# 		print(f"Tableau extrait de la page {page_num + 1} :")
-		# 		print(df)
-		# 		print()
+    graphical_window()		
