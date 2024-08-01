@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.filedialog import *
+from tkinter.messagebox import *
 from myaccountant import MyAccountant
 
 def quit_program():
@@ -19,8 +20,11 @@ def select_xlsx():
         xlsx_label.config(text=filepathxlsx)
 
 def run_program():
-    MyAccountant(filepathpdf,filepathxlsx)
-    quit_program()
+    try:
+        str = MyAccountant(filepathpdf,filepathxlsx)
+    except :
+        str = "ERROR : two files must be selected"
+    showinfo("INFO", str)
 
 def graphical_window():
     global root, pdf_label, xlsx_label

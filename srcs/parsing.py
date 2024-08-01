@@ -45,15 +45,6 @@ def count_files_per_month(mypdf):
 		month = int(key[3:5]) - 1
 		mypdf.files_per_month_per_year[year][month] += value
 
-		# for month in range(1,13) :
-		# 	month_str= str(month)
-		# 	if (month < 10):
-		# 		month_str ="0"+month_str
-		# 	if key.endswith(f"{month_str}{current_year}"):
-		# 		mypdf.file_per_month_current_year[month -1] += mypdf.files_per_date[key]
-		# 	elif key.endswith(f"{month_str}{current_year - 1}"):
-		# 		mypdf.file_per_month_last_year[month -1] += mypdf.files_per_date[key]
-
 def extract_bill_date(line):
 	split_elements = line.split()
 	return split_elements[2]
@@ -71,8 +62,8 @@ def parsing_lines(lines, my_pdf):
 	count_files_per_month(my_pdf)
 	total_per_month= sum(my_pdf.revenue_per_month_current_year)+sum(my_pdf.revenue_per_month_last_year)
 
-	print(f"total files : {my_pdf.total_files}")
-	print(f"total revenue : {my_pdf.total_revenue}")
-	print(f"total revenue per month : {total_per_month}")
-	print(f"NET revenue : {my_pdf.net_revenue}")
-	print(f"Bill date : {my_pdf.bill_date}")
+	# print(f"total files : {my_pdf.total_files}")
+	# print(f"total revenue : {my_pdf.total_revenue}")
+	# print(f"total revenue per month : {total_per_month}")
+	# print(f"NET revenue : {my_pdf.net_revenue}")
+	# print(f"Bill date : {my_pdf.bill_date}")

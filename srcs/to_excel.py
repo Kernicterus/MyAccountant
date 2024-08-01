@@ -98,11 +98,11 @@ def put_rest_of_data(workbook,my_pdf):
 def parsing_to_excel(inputxlsx, my_pdf):
     workbook = load_workbook(inputxlsx)
     if is_bill_already_scraped(workbook, my_pdf.bill_date) == True :
-        print("Error : pdf already scraped")
-        exit
+        return("Error : pdf already scraped")
     put_dates_per_year_sheet(workbook, my_pdf)
     put_rest_of_data(workbook, my_pdf)
     workbook.save('output.xlsx')
+    return ("Data extraction and saving successful")
 
 
 

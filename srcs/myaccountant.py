@@ -18,5 +18,5 @@ def MyAccountant(inputpdf, inputxlsx):
 	my_pdf = XPdf()
 	lines = pdf_extraction(inputpdf)
 	parsing_lines(lines, my_pdf)
-	parsing_to_excel(inputxlsx, my_pdf)
+	return(parsing_to_excel(inputxlsx, my_pdf))
 
