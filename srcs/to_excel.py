@@ -28,7 +28,7 @@ def get_row(ws, key):
     rowx=0
     for cell in ws['A']:
         if cell.value == key:
-            rowx = ws[cell.row]
+            rowx = cell.row
             return (rowx)
     for cell in ws['A']:
          if cell.row > 1 and cell.value != None and not is_date_superior(key, cell.value):
@@ -101,7 +101,7 @@ def parsing_to_excel(inputxlsx, my_pdf):
         return("Error : pdf already scraped")
     put_dates_per_year_sheet(workbook, my_pdf)
     put_rest_of_data(workbook, my_pdf)
-    workbook.save('output.xlsx')
+    workbook.save(inputxlsx)
     return ("Data extraction and saving successful")
 
 
