@@ -20,9 +20,14 @@ def select_xlsx():
         xlsx_label.config(text=filepathxlsx)
 
 def run_program():
-    try:
-        str = MyAccountant(filepathpdf,filepathxlsx)
-    except :
+    try :
+        test1 = filepathpdf
+        test2 = filepathxlsx
+        try:
+            str = MyAccountant(filepathpdf,filepathxlsx)
+        except Exception as e:
+            str = e
+    except : 
         str = "ERROR : two files must be selected"
     showinfo("INFO", str)
 
