@@ -16,7 +16,7 @@ This project was designed to enhance my Python programming skills by implementin
 
 1. **Clone the git :**
    ```bash
-   git clone git@github.com:Kernicterus/MyAccountant.git
+   git clone https://github.com/Kernicterus/MyAccountant.git
    ```
 
 2. **Be sure python3 + tkinter are installed:**
